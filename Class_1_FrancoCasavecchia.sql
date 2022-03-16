@@ -16,17 +16,16 @@ CREATE TABLE IF NOT EXISTS actor(
 );
 
 CREATE TABLE IF NOT EXISTS film_actor(
-	film_actor_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	film_id_fk int not null,
     actor_id_fk int not null    
 );
 
 ALTER TABLE film
-	ADD last_update DATE NOT NULL
+	ADD last_update VARCHAR(4) NOT NULL
     AFTER relese_year;
     
 ALTER TABLE actor
-	ADD last_update DATE NOT NULL
+	ADD last_update VARCHAR(4) NOT NULL
     AFTER last_name;
     
 ALTER TABLE film_actor
@@ -35,11 +34,11 @@ ADD FOREIGN KEY (film_id_fk) REFERENCES film(film_id);
 ALTER TABLE film_actor
 ADD FOREIGN KEY (actor_id_fk) REFERENCES actor(actor_id);
 
-INSERT INTO film VALUES("1","Pelao","El pelado","2003");
-INSERT INTO film VALUES("2","Casita","El casita","2021");
+INSERT INTO film VALUES(1,"Pelao","El pelado",2003,"2003");
+INSERT INTO film VALUES(2,"Casita","El casita","2021","2007");
 
-INSERT INTO actor VALUES("1","Pelao","El pelado");
-INSERT INTO actor VALUES("1","Pelao","El pelado");
+INSERT INTO actor VALUES(1,"Pelao","El pelado","2019");
+INSERT INTO actor VALUES(2,"Casita","El Casita","2009");
 
-INSERT INTO film_actor VALUES("1","2");
-INSERT INTO film_actor VALUES("2","1");
+INSERT INTO film_actor VALUES(1,2);
+INSERT INTO film_actor VALUES(2,1);
