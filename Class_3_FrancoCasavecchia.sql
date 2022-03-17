@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS film(
     rating VARCHAR(2)NOT NULL,
     special_features VARCHAR(55)NOT NULL,
 	last_update DATE NOT NULL,
-	FOREING_KEY (fk_language_id) REFERENCES languagee(language_id)
+	FOREIGN KEY (fk_language_id) REFERENCES languagee(language_id)
 );
 
 CREATE TABLE IF NOT EXISTS rental(
