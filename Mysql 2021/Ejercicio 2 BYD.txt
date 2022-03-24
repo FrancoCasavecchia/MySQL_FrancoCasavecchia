@@ -1,0 +1,11 @@
+Determine los campos y tipo de datos que se necesitan para la siguiente lista y colocar ejemplos:
+
+Medicamentos = string(nombre),ibuprofeno,paracetamol
+Clientes = string(nombre),Juan,pedro,Manuel
+Médicos = string(nombre),Rosana,Saul
+Productos lácteos = string(nombre),Queso,Yogurt
+Alumnos = string(nombre),Franco,Matias
+Carreras de estudio = string(nombre),Arquitectura,Medicina
+Libros = string(nombre),Hansel y Gretel,Infierno
+Automóviles = string(nombre),Onix,Agile
+Vestimentas = string(nombre);Remera,Pantalon
