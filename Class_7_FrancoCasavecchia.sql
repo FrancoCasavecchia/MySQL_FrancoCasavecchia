@@ -23,7 +23,8 @@ ORDER BY c.first_name
 #Generate a report that shows the customer's information with the highest payment and the lowest payment in the same row.
 
 SELECT c.first_name as nombre,c.last_name as apellido, a.address as Direccion,
-	(SELECT MIN(amount) FROM payment p WHERE c.customer_id = p.customer_id ) as Paga_Minima, (SELECT MAX(amount) FROM payment p WHERE c.customer_id = p.customer_id ) AS paga_maxima
+	(SELECT MIN(amount) FROM payment p WHERE c.customer_id = p.customer_id ) as Paga_Minima, 
+    (SELECT MAX(amount) FROM payment p WHERE c.customer_id = p.customer_id ) AS paga_maxima
 FROM customer c
 JOIN address a on c.address_id = a.address_id
 ORDER BY c.first_name
