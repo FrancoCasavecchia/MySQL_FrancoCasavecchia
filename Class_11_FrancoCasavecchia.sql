@@ -41,36 +41,22 @@ SELECT st.store_id,
 	concat(s.first_name,' ',s.last_name) as 'NOMBRE STAFF', 
 	concat(co.country,', ',ci.city) as 'PAIS Y CIUDAD'
 FROM store st
-INNER JOIN staff s ON st.manager_staff_id = s.staff_id
-INNER JOIN payment p ON s.staff_id = p.staff_id
-INNER JOIN address a ON st.address_id = a.address_id
-INNER JOIN city ci ON a.city_id = ci.city_id
-INNER JOIN country co ON ci.country_id = co.country_id
+	INNER JOIN staff s ON st.manager_staff_id = s.staff_id
+	INNER JOIN payment p ON s.staff_id = p.staff_id
+	INNER JOIN address a ON st.address_id = a.address_id
+	INNER JOIN city ci ON a.city_id = ci.city_id
+	INNER JOIN country co ON ci.country_id = co.country_id
 GROUP BY st.store_id;
     
 
-SELECT
-    sto.store_id,
-    CONCAT(
-        sta.first_name,
-        ' ',
-        sta.last_name
-    ) AS 'Nombre',
-    COUNT(pay.payment_id) AS 'cantidad ventas',
-    SUM(pay.amount) AS 'dinero ventas',
-    CONCAT(co.country, ', ', ci.city) AS 'pais y ciudad'
-FROM store sto
-    INNER JOIN staff sta ON sto.manager_staff_id = sta.staff_id
-    INNER JOIN payment pay ON sta.staff_id = pay.staff_id
-    INNER JOIN address adr ON sto.address_id = adr.address_id
-    INNER JOIN city ci ON adr.city_id = ci.city_id
-    INNER JOIN country co ON ci.country_id = co.country_id
-GROUP BY sto.store_id;
-    
-
-
-
 #Which actor has appeared in the most films?
+
+SELECT a.* , count( fa.film_id) AS 'CANTIDAD DE APARICIONES'
+FROM actor a
+	RIGHT JOIN film_actor fa USING(actor_id)
+GROUP BY actor_id
+ORDER BY 'CANTIDAD DE APARICIONES' DESC
+LIMIT 1;
 	
 
 
