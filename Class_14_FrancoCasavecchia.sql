@@ -18,6 +18,14 @@ select * from customer where first_name = 'Franco';
 	#Make easy to select any film title. I.e. I should be able to put 'film tile' in the where, and not the id.
 	#Do not check if the film is already rented, just use any from the inventory, e.g. the one with highest id.
 	#Select any staff_id from Store 2.
+select * from rental;
+
+INSERT INTO rental (rental_date,inventory_id,customer_id,return_date,staff_id)
+SELECT CURRENT_TIMESTAMP ,max(i.film_id) as inventory_id , 600,CURRENT_TIMESTAMP,2
+FROM inventory i;
+
+select * from rental where customer_id = 600;
+
 
 #Update film year based on the rating
 	#For example if rating is 'G' release date will be '2001'
