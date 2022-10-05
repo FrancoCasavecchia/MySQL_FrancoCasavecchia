@@ -124,7 +124,7 @@ SHOW TRIGGERS;
 #ins_film trigger for the insert into the FILM TABLE
 BEGIN
      INSERT INTO film_text (film_id, title, description)
-         VALUES (new.film_id, new.title, new.description);
+         VALUES (new.film_id, new.title, new.description)
    END$$
  
   
