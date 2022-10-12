@@ -24,13 +24,17 @@ DELIMITER ;
 select amount_copies(44,1);
 
 
+
 #Write a stored procedure with an output parameter that contains a list of customer first and last names separated by ";", 
 #that live in a certain country. You pass the country it gives you the list of people living there. 
 #USE A CURSOR, do not use any aggregation function (ike CONTCAT_WS.
 
-DELIMITER //
 
-CREATE PROCEDURE people_country(IN cou VARCHAR(200),OUT list VARCHAR(200))
+DELIMITER $
+
+DROP PROCEDURE IF EXISTS people_country $
+
+CREATE PROCEDURE people_country(IN co_name VARCHAR(200),OUT final VARCHAR(200))
 BEGIN
 	DECLARE fin INT DEFAULT 0;
     DECLARE f_name VARCHAR(200);
@@ -52,18 +56,82 @@ looplabel: LOOP
 		IF fin = 1 THEN
 			LEAVE looplabel;
 		END IF;
-		IF coun = co_name THEN
-			SET list = CONCAT(f_name,';',l_name);
+		IF c_name = co_name THEN
+			SET final = CONCAT(f_name,';',l_name);
 		END IF;
 END LOOP looplabel;
 CLOSE cursList;
     
-END //
+END $
 DELIMITER ;
 
-set @list = "";
-call people_country('United States',@list);
-SELECT @list;
+call people_country('United States',@final);
+SELECT @final;
+#BRANDY;GRAVES
+
+#Review the function inventory_in_stock and the procedure film_in_stock explain the code, write usage examples.
+
+SHOW CREATE FUNCTION inventory_in_stock;
+
+/*
+CREATE DEFINER=`root`@`localhost` FUNCTION `inventory_in_stock`(p_inventory_id INT) RETURNS tinyint(1)
+     READS SQL DATA
+ BEGIN
+     DECLARE v_rentals INT;														El funcionamiento principal que tiene esta funcion 
+     DECLARE v_out     INT;														es la de pedir un objeto y el cual te va a decir si 
+																				se encuntra en el inventario, lo que usa para combrobar esto	
+     #AN ITEM IS IN-STOCK IF THERE ARE EITHER NO ROWS IN THE rental TABLE		es usar la cantidad de rentals y el v_out para que devuelva un boolean
+     #FOR THE ITEM OR ALL ROWS HAVE return_date POPULATED						en el que si es TRUE e porque existe en el inventario y si da FALSE es 
+																				no esta
+ 
+     SELECT COUNT(*) INTO v_rentals
+     FROM rental
+     WHERE inventory_id = p_inventory_id;
+ 
+     IF v_rentals = 0 THEN
+       RETURN TRUE;
+     END IF;
+ 
+     SELECT COUNT(rental_id) INTO v_out
+     FROM inventory LEFT JOIN rental USING(inventory_id)
+     WHERE inventory.inventory_id = p_inventory_id
+     AND rental.return_date IS NULL;
+ 
+     IF v_out > 0 THEN
+       RETURN FALSE;
+     ELSE
+       RETURN TRUE;
+     END IF;
+ END
+*/
+
+#USAGE EXAMPLE
+
+SELECT inventory_in_stock(32);
+# devuelve '1'
+
+
+SHOW CREATE PROCEDURE film_in_stock;
+/*
+CREATE DEFINER=`root`@`localhost` PROCEDURE `film_in_stock`(IN p_film_id INT, IN p_store_id INT, OUT p_film_count INT)
+     READS SQL DATA
+ BEGIN
+      SELECT inventory_id							Aca podemos ver que son dos SELECT distintos:	
+      FROM inventory								El primero lo que hace es seleccionar un ID  del inventario en donde compara que 
+      WHERE film_id = p_film_id						la pelicula este en el inventario y usa la funcion aterior apra corroborar si esta en 
+      AND store_id = p_store_id						x tienda
+      AND inventory_in_stock(inventory_id);		
+													En el segundo lo que devuelve es el total de parametros que usaste
+      SELECT FOUND_ROWS() INTO p_film_count;
+ END
+*/
+
+#USAGE EXAMPLE
+
+CALL film_in_stock(1,1,@f);
+#DEVUELVE: '1','2','3','4' del INVENTORY_ID
+
+
 
 
 
