@@ -55,5 +55,21 @@ FROM film f
 WHERE
 	CONCAT(a.first_name,' ',a.last_name) LIKE TRIM(UPPER('ED CHASE'));
 
+#4 Find all the rentals done in the months of May and June. Show the film title, customer name and if it was returned or not. There should be returned column with two possible values 'Yes' and 'No'.
 
-
+SELECT 
+	f.title,
+    CONCAT(c.first_name,' ',c.last_name) as 'Customers Name',
+    r.rental_date,
+CASE
+	WHEN r.return_date IS NOT NULL THEN 'Yes'
+    WHEN r.return_date IS NULL THEN 'No'
+END 'Return'
+FROM film f
+	JOIN inventory USING(film_id)
+    JOIN rental r USING(inventory_id)
+    JOIN customer c USING(customer_id)
+WHERE
+	MONTH(r.rental_date) = 05 OR MONTH(r.rental_date) = 06
+ORDER BY r.rental_date;
+    
